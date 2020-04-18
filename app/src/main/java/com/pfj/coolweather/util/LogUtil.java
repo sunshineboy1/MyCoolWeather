@@ -1,6 +1,5 @@
 package com.pfj.coolweather.util;
 
-import android.os.Build;
 import android.util.Log;
 
 public class LogUtil {
@@ -46,7 +45,7 @@ public class LogUtil {
 
     public static void e(String log){
         if (level <= ERROR ){
-            Log.e("pfj",log);
+            Log.e("pfj===",log);
         }
     }
 }

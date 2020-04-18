@@ -3,8 +3,12 @@ package com.pfj.coolweather.db;
 import org.litepal.crud.DataSupport;
 
 public class City extends DataSupport {
-    public int cityId;
+    //城市标识：在数据库表示是哪个城市
+    public int id;
+    //城市名字
     public String cityName;
-    public String cityCode;
-    public int provinveId;
+    //根据code找到下一级
+    public int cityCode;
+    //上一级所属省
+    public int provinceId;
 }

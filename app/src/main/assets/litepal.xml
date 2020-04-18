@@ -3,8 +3,8 @@
     <dbname value="cool_weather"></dbname>
     <version value ="1"></version>
     <list>
-        <mapping value="com.pfj.coolweather.db.City"/>
-        <mapping value="com.pfj.coolweather.db.County"/>
-        <mapping value="com.pfj.coolweather.db.Province"/>
+        <mapping class="com.pfj.coolweather.db.City"/>
+        <mapping class="com.pfj.coolweather.db.County"/>
+        <mapping class="com.pfj.coolweather.db.Province"/>
     </list>
 </litepal>
