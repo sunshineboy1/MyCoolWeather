@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.pfj.coolweather.MainActivity;
 import com.pfj.coolweather.R;
 import com.pfj.coolweather.WeatherActivity;
 import com.pfj.coolweather.db.City;
@@ -243,10 +244,20 @@ public class ChooseAreaFragment extends Fragment implements
             queryCounty();
         }else if (current_level == COUNTY){//跳转到天气信息界面
             String weatherId = countyList.get(position).weatherId;
-            Intent intent = new Intent(getActivity(), WeatherActivity.class);
-            intent.putExtra("weather_id",weatherId);
-            startActivity(intent);
-            getActivity().finish();
+            /**
+             * 在两个activity复用
+             */
+            if (getActivity() instanceof MainActivity) {
+                Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                intent.putExtra("weather_id", weatherId);
+                startActivity(intent);
+                getActivity().finish();
+            }else if (getActivity() instanceof WeatherActivity){
+                WeatherActivity activity = (WeatherActivity) getActivity();
+                activity.drawerLayout.closeDrawers();
+                activity.swipeRefreshLayout.setRefreshing(true);
+                activity.requestWeather(weatherId);
+            }
         }
     }
 }

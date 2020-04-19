@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
@@ -47,8 +50,12 @@ public class WeatherActivity extends AppCompatActivity {
 
     private ImageView ivBing;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
+    public SwipeRefreshLayout swipeRefreshLayout;
     private String mWeatherId;
+
+    private Button btnHome;
+    public DrawerLayout drawerLayout;
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -126,7 +133,7 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     //请求天气信息
-    private void requestWeather(final String weatherId) {
+    public void requestWeather(final String weatherId) {
         String weatherUrl = "http://guolin.tech/api/weather?cityid=" + weatherId + "&key=902cab799a27450b96378a7a76abec99";
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
@@ -206,5 +213,13 @@ public class WeatherActivity extends AppCompatActivity {
         ivBing = findViewById(R.id.ivBiYING);
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.blue);
+        btnHome = findViewById(R.id.btn_nav);
+        drawerLayout = findViewById(R.id.drawer);
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
     }
 }
