@@ -1,8 +1,12 @@
 package com.pfj.coolweather.util;
 
+import android.text.TextUtils;
+
+import com.google.gson.Gson;
 import com.pfj.coolweather.db.City;
 import com.pfj.coolweather.db.County;
 import com.pfj.coolweather.db.Province;
+import com.pfj.coolweather.gson.Weather;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,7 +62,7 @@ public class Utility {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     County county = new County();
                     JSONObject object = jsonArray.getJSONObject(i);
-                    county.weatherId= object.getString("weather_id");
+                    county.weatherId = object.getString("weather_id");
                     county.countyName = object.getString("name");
                     county.cityId = cityId;
                     county.save();
@@ -70,4 +74,21 @@ public class Utility {
         }
         return false;
     }
+
+    public static Weather handleWeatherInfo(String response) {
+        try {
+            if (!TextUtils.isEmpty(response)) {
+                JSONObject object = new JSONObject(response);
+                JSONArray heWeather = object.getJSONArray("HeWeather");
+                String array = heWeather.getJSONObject(0).toString();
+                return new Gson().fromJson(array, Weather.class);//String->Weather对象
+            }
+
+        } catch (Exception e) {
+            LogUtil.e("handleWeatherInfo Exception");
+        }
+        return null;
+    }
+
+
 }
