@@ -1,5 +1,6 @@
 package com.pfj.coolweather;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.pfj.coolweather.gson.DailyForecast;
 import com.pfj.coolweather.gson.Weather;
+import com.pfj.coolweather.service.AutoUpdateService;
 import com.pfj.coolweather.util.HttpUtil;
 import com.pfj.coolweather.util.LogUtil;
 import com.pfj.coolweather.util.SpUtil;
@@ -173,7 +175,7 @@ public class WeatherActivity extends AppCompatActivity {
     /*显示天气信息*/
     private void showWeatherInfo(Weather weather) {
         titleCounty.setText(weather.basic.city);
-        titleTime.setText("更新于：" + weather.basic.update.loc.split(" ")[1]);
+        titleTime.setText("更新于" + weather.basic.update.loc.split(" ")[1]);
         nowTem.setText(weather.now.tem + "℃");
         nowInfo.setText(weather.now.cond.txt);
         forecastLayout.removeAllViews();
@@ -191,10 +193,13 @@ public class WeatherActivity extends AppCompatActivity {
         }
         aqi.setText(weather.aqi.city.aqi);
         pm25.setText(weather.aqi.city.pm25);
-        tvComfort.setText(weather.suggestion.comf.txt);
-        tvCarwash.setText(weather.suggestion.cw.txt);
-        tvSport.setText(weather.suggestion.sport.txt);
+        tvComfort.setText("舒适度："+weather.suggestion.comf.txt);
+        tvCarwash.setText("洗车建议："+weather.suggestion.cw.txt);
+        tvSport.setText("运动建议："+weather.suggestion.sport.txt);
         scrollView.setVisibility(View.VISIBLE);
+        //启动自动更新服务
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
 
     }
 
